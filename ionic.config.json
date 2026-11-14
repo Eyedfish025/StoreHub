@@ -1,0 +1,7 @@
+{
+  "name": "StoreHub",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

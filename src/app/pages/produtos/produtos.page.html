@@ -1,0 +1,147 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catálogo StoreHub</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/carrinho-equipe" class="cart-button">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        @if (carrinhoService.totalItens() > 0) {
+          <ion-badge color="danger" class="cart-badge">
+            {{ carrinhoService.totalItens() }}
+          </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Barra de Busca em Tempo Real -->
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar
+      [value]="termoBusca"
+      placeholder="Buscar por nome, modelo ou descrição..."
+      [debounce]="250"
+      (ionInput)="aoDigitarBusca($event)"
+      show-clear-button="always"
+    ></ion-searchbar>
+  </ion-toolbar>
+
+  <!-- Filtro de Categorias via IonSegment -->
+  <ion-toolbar class="segment-toolbar">
+    <ion-segment
+      [value]="categoriaSelecionada"
+      [scrollable]="true"
+      (ionChange)="aoMudarCategoria($event)"
+    >
+      <ion-segment-button value="todos">
+        <ion-label>TODOS</ion-label>
+      </ion-segment-button>
+      @for (cat of categorias; track cat) {
+        <ion-segment-button [value]="cat">
+          <ion-label>{{ cat | uppercase }}</ion-label>
+        </ion-segment-button>
+      }
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Status e Contagem de Resultados -->
+  <div class="catalog-summary">
+    <span class="results-count">
+      <strong>{{ produtosFiltrados.length }}</strong> produtos encontrados
+    </span>
+    @if (termoBusca || categoriaSelecionada !== 'todos') {
+      <ion-button fill="clear" size="small" color="medium" (click)="limparFiltros()">
+        Limpar Filtros
+        <ion-icon slot="end" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    }
+  </div>
+
+  @if (carregando) {
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Carregando catálogo de produtos...</p>
+    </div>
+  } @else if (erroCarregamento) {
+    <div class="error-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>Falha ao conectar com o serviço FakeStoreAPI.</p>
+      <ion-button fill="outline" (click)="carregarDados()">
+        Recarregar Produtos
+      </ion-button>
+    </div>
+  } @else {
+    <ion-grid>
+      <ion-row>
+        @for (prod of produtosFiltrados; track prod.id) {
+          <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+            <ion-card
+              class="catalog-product-card"
+              [appDestaquePromocao]="prod.price"
+              [appZoomHover]="1.03"
+              [routerLink]="['/detalhes', prod.id]"
+            >
+              @if (prod.price < 50) {
+                <div class="promo-indicator">
+                  <ion-icon name="flash"></ion-icon>
+                  Promoção &lt; $50
+                </div>
+              }
+
+              <div class="card-image-box">
+                <img [src]="prod.image" [alt]="prod.title" loading="lazy" />
+              </div>
+
+              <ion-card-header>
+                <ion-card-subtitle>{{ prod.category | uppercase }}</ion-card-subtitle>
+                <ion-card-title class="card-product-title">
+                  {{ prod.title | resumoTexto: 48 }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="stars-line">
+                  {{ prod.rating | avaliacaoEstrelas }}
+                </div>
+
+                <p class="description-line">
+                  {{ prod.description | resumoTexto: 75 }}
+                </p>
+
+                <div class="price-action-row">
+                  <span class="price-value">
+                    {{ prod.price | currency:'USD':'symbol':'1.2-2' }}
+                  </span>
+                  <ion-button
+                    color="primary"
+                    size="small"
+                    (click)="adicionarAoCarrinho(prod, $event)"
+                  >
+                    <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        } @empty {
+          <ion-col size="12">
+            <div class="empty-search-state">
+              <ion-icon name="search-outline"></ion-icon>
+              <h3>Nenhum produto encontrado</h3>
+              <p>Tente ajustar os termos de pesquisa ou selecione outra categoria.</p>
+              <ion-button fill="outline" (click)="limparFiltros()">
+                Redefinir Filtros
+              </ion-button>
+            </div>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  }
+</ion-content>

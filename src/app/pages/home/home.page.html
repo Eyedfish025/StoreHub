@@ -1,0 +1,165 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <span class="brand-title">
+        <ion-icon name="storefront-outline" class="brand-icon"></ion-icon>
+        StoreHub
+      </span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/produtos">
+        <ion-icon slot="icon-only" name="grid-outline"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/carrinho-equipe" class="cart-button">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        @if (carrinhoService.totalItens() > 0) {
+          <ion-badge color="danger" class="cart-badge">
+            {{ carrinhoService.totalItens() }}
+          </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <ion-icon name="sparkles"></ion-icon>
+        <span>Ofertas Especiais de Lançamento</span>
+      </div>
+      <h1>Bem-vindo ao StoreHub</h1>
+      <p>
+        Sua loja inteligente com os melhores produtos da FakeStoreAPI.
+        Aproveite promoções exclusivas abaixo de $50 com entrega relâmpago!
+      </p>
+      <div class="hero-actions">
+        <ion-button routerLink="/produtos" color="light" size="default">
+          <ion-icon slot="start" name="grid-outline"></ion-icon>
+          Explorar Catálogo Completo
+        </ion-button>
+        <ion-button routerLink="/carrinho-equipe" fill="outline" color="light" size="default">
+          <ion-icon slot="start" name="people-outline"></ion-icon>
+          Equipe & Carrinho
+        </ion-button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorias em Chips -->
+  <section class="section-container">
+    <div class="section-header">
+      <h2>Categorias</h2>
+      <ion-button fill="clear" size="small" routerLink="/produtos">
+        Ver Todas
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="chips-scroll">
+      <ion-chip color="primary" [outline]="false" (click)="navegarParaCategoria('')">
+        <ion-icon name="grid"></ion-icon>
+        <ion-label>Todas as Categorias</ion-label>
+      </ion-chip>
+      @for (cat of categorias; track cat) {
+        <ion-chip color="secondary" [outline]="true" (click)="navegarParaCategoria(cat)">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <ion-label>{{ cat | uppercase }}</ion-label>
+        </ion-chip>
+      }
+    </div>
+  </section>
+
+  <!-- Showcase de Produtos Promocionais (< $50) -->
+  <section class="section-container">
+    <div class="section-header">
+      <div>
+        <span class="section-badge">
+          <ion-icon name="flash"></ion-icon>
+          Preços Imperdíveis
+        </span>
+        <h2>Ofertas em Destaque (&lt; $50.00)</h2>
+      </div>
+      <p class="section-desc">Itens com borda e brilho verde destacados pela diretiva appDestaquePromocao</p>
+    </div>
+
+    @if (carregando) {
+      <div class="loading-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <p>Buscando as melhores ofertas da FakeStoreAPI...</p>
+      </div>
+    } @else if (erroCarregamento) {
+      <div class="error-state">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>Não foi possível carregar as promoções no momento.</p>
+        <ion-button (click)="carregarDados()" fill="outline">
+          Tentar Novamente
+        </ion-button>
+      </div>
+    } @else {
+      <ion-grid>
+        <ion-row>
+          @for (prod of produtosPromocionais; track prod.id) {
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+              <ion-card
+                class="product-card"
+                [appDestaquePromocao]="prod.price"
+                [appZoomHover]="1.03"
+                [routerLink]="['/detalhes', prod.id]"
+              >
+                <div class="promo-badge-container">
+                  <span class="promo-tag">
+                    <ion-icon name="flash"></ion-icon>
+                    Oferta &lt; $50
+                  </span>
+                </div>
+
+                <div class="product-image-wrapper">
+                  <img [src]="prod.image" [alt]="prod.title" loading="lazy" />
+                </div>
+
+                <ion-card-header>
+                  <ion-card-subtitle>{{ prod.category | uppercase }}</ion-card-subtitle>
+                  <ion-card-title class="product-title">
+                    {{ prod.title | resumoTexto: 45 }}
+                  </ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                  <div class="rating-box">
+                    <span class="stars-text">{{ prod.rating | avaliacaoEstrelas }}</span>
+                  </div>
+
+                  <p class="product-description">
+                    {{ prod.description | resumoTexto: 70 }}
+                  </p>
+
+                  <div class="card-footer-action">
+                    <span class="product-price">
+                      {{ prod.price | currency:'USD':'symbol':'1.2-2' }}
+                    </span>
+                    <ion-button
+                      size="small"
+                      color="primary"
+                      (click)="adicionarAoCarrinho(prod, $event)"
+                    >
+                      <ion-icon slot="icon-only" name="add"></ion-icon>
+                    </ion-button>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          } @empty {
+            <ion-col size="12">
+              <div class="empty-state">
+                <p>Nenhuma oferta promocional encontrada no momento.</p>
+              </div>
+            </ion-col>
+          }
+        </ion-row>
+      </ion-grid>
+    }
+  </section>
+</ion-content>

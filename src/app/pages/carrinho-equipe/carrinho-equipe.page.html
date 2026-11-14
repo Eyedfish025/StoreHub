@@ -1,0 +1,258 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/produtos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carrinho & Equipe</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/produtos">
+        <ion-icon slot="icon-only" name="grid-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- SEÇÃO 1: GERENCIAMENTO DO CARRINHO -->
+  <section class="cart-section">
+    <div class="section-title-bar">
+      <div class="title-with-badge">
+        <ion-icon name="cart"></ion-icon>
+        <h2>Meu Carrinho de Compras</h2>
+        @if (carrinhoService.totalItens() > 0) {
+          <ion-badge color="primary">
+            {{ carrinhoService.totalItens() }} {{ carrinhoService.totalItens() === 1 ? 'item' : 'itens' }}
+          </ion-badge>
+        }
+      </div>
+
+      @if (carrinhoService.itens().length > 0) {
+        <ion-button fill="clear" color="danger" size="small" (click)="confirmarLimpeza()">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Limpar Tudo
+        </ion-button>
+      }
+    </div>
+
+    @if (carrinhoService.itens().length === 0) {
+      <div class="empty-cart-card">
+        <ion-icon name="cart-outline" class="empty-cart-icon"></ion-icon>
+        <h3>Seu carrinho está vazio</h3>
+        <p>Explore nosso catálogo da FakeStoreAPI e adicione produtos com preços incríveis!</p>
+        <ion-button routerLink="/produtos" color="primary" size="default">
+          <ion-icon slot="start" name="grid-outline"></ion-icon>
+          Ver Produtos
+        </ion-button>
+      </div>
+    } @else {
+      <ion-grid>
+        <ion-row>
+          <!-- Lista de Itens do Carrinho -->
+          <ion-col size="12" size-lg="8">
+            <ion-list lines="full" class="cart-items-list">
+              @for (item of carrinhoService.itens(); track item.produto.id) {
+                <ion-item class="cart-item">
+                  <ion-thumbnail slot="start" class="item-thumb" [routerLink]="['/detalhes', item.produto.id]">
+                    <img [src]="item.produto.image" [alt]="item.produto.title" />
+                  </ion-thumbnail>
+
+                  <ion-label class="item-info">
+                    <span class="item-category">{{ item.produto.category | uppercase }}</span>
+                    <h3 class="item-title" [routerLink]="['/detalhes', item.produto.id]">
+                      {{ item.produto.title | resumoTexto: 50 }}
+                    </h3>
+                    <p class="unit-price">
+                      Unitário: {{ item.produto.price | currency:'USD':'symbol':'1.2-2' }}
+                    </p>
+                    <p class="total-item-price">
+                      Subtotal: <strong>{{ (item.produto.price * item.quantidade) | currency:'USD':'symbol':'1.2-2' }}</strong>
+                    </p>
+                  </ion-label>
+
+                  <!-- Controles de Quantidade (+, -) e Remoção -->
+                  <div slot="end" class="item-actions">
+                    <div class="qty-control-box">
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        color="medium"
+                        (click)="decrementar(item)"
+                      >
+                        <ion-icon slot="icon-only" name="remove"></ion-icon>
+                      </ion-button>
+
+                      <span class="qty-number">{{ item.quantidade }}</span>
+
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        color="primary"
+                        (click)="incrementar(item)"
+                      >
+                        <ion-icon slot="icon-only" name="add"></ion-icon>
+                      </ion-button>
+                    </div>
+
+                    <ion-button
+                      fill="clear"
+                      color="danger"
+                      size="small"
+                      (click)="remover(item)"
+                      title="Excluir produto do carrinho"
+                    >
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </div>
+                </ion-item>
+              }
+            </ion-list>
+          </ion-col>
+
+          <!-- Resumo Financeiro & Finalização -->
+          <ion-col size="12" size-lg="4">
+            <ion-card class="checkout-summary-card">
+              <ion-card-header>
+                <ion-card-subtitle>RESUMO DO PEDIDO</ion-card-subtitle>
+                <ion-card-title>Total Financeiro</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="summary-line">
+                  <span>Quantidade de itens:</span>
+                  <strong>{{ carrinhoService.totalItens() }}</strong>
+                </div>
+
+                <div class="summary-line">
+                  <span>Persistência Local:</span>
+                  <ion-chip color="success" size="small">
+                    <ion-icon name="checkmark-circle"></ion-icon>
+                    <ion-label>storehub_carrinho_v1</ion-label>
+                  </ion-chip>
+                </div>
+
+                <div class="summary-line">
+                  <span>Frete estimado:</span>
+                  <span class="free-shipping">GRÁTIS</span>
+                </div>
+
+                <div class="summary-total-divider"></div>
+
+                <div class="summary-total-row">
+                  <span>Total Geral:</span>
+                  <span class="final-subtotal">
+                    {{ carrinhoService.subtotal() | currency:'USD':'symbol':'1.2-2' }}
+                  </span>
+                </div>
+
+                <ion-button
+                  expand="block"
+                  color="success"
+                  size="large"
+                  class="checkout-button"
+                  (click)="finalizarCompra()"
+                >
+                  <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+                  Finalizar Compra
+                </ion-button>
+
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  size="default"
+                  routerLink="/produtos"
+                >
+                  <ion-icon slot="start" name="grid-outline"></ion-icon>
+                  Adicionar Mais Itens
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    }
+  </section>
+
+  <!-- SEÇÃO 2: ROSTER DA EQUIPE DE DESENVOLVIMENTO -->
+  <section class="team-section">
+    <div class="section-title-bar">
+      <div class="title-with-badge">
+        <ion-icon name="people"></ion-icon>
+        <h2>Equipe de Desenvolvimento</h2>
+        <ion-chip color="tertiary" size="small">
+          <ion-icon name="sparkles"></ion-icon>
+          <ion-label>StoreHub Team</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+    <p class="team-intro">
+      Projeto desenvolvido para a disciplina de Desenvolvimento Mobile com arquitetura escalável
+      baseada em <strong>Angular 100% Standalone</strong>, <strong>Ionic 8</strong> e controle de fluxo moderno.
+    </p>
+
+    <ion-grid>
+      <ion-row>
+        @for (membro of equipe; track membro.nome) {
+          <ion-col size="12" size-md="4">
+            <ion-card class="member-card">
+              <ion-card-header>
+                <div class="member-header-box">
+                  <div class="member-avatar">
+                    <ion-icon [name]="membro.avatarIcon"></ion-icon>
+                  </div>
+                  <div>
+                    <ion-card-title class="member-name">{{ membro.nome }}</ion-card-title>
+                    <ion-card-subtitle class="member-role">{{ membro.papel }}</ion-card-subtitle>
+                  </div>
+                </div>
+              </ion-card-header>
+
+              <ion-card-content>
+                <p class="member-desc">{{ membro.responsabilidades }}</p>
+                @if (membro.contato) {
+                  <div class="member-contact">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <span>{{ membro.contato }}</span>
+                  </div>
+                }
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+
+    <!-- Stack Tecnológico do Projeto -->
+    <div class="tech-stack-container">
+      <h3>Tecnologias Utilizadas</h3>
+      <div class="tech-chips">
+        <ion-chip color="primary">
+          <ion-icon name="sparkles"></ion-icon>
+          <ion-label>Ionic 8 Framework</ion-label>
+        </ion-chip>
+        <ion-chip color="danger">
+          <ion-icon name="sparkles"></ion-icon>
+          <ion-label>Angular Standalone (Zero NgModules)</ion-label>
+        </ion-chip>
+        <ion-chip color="secondary">
+          <ion-icon name="flash"></ion-icon>
+          <ion-label>Modern Flow (&#64;if &amp; &#64;for)</ion-label>
+        </ion-chip>
+        <ion-chip color="success">
+          <ion-icon name="card-outline"></ion-icon>
+          <ion-label>LocalStorage Persistente</ion-label>
+        </ion-chip>
+        <ion-chip color="warning">
+          <ion-icon name="globe-outline"></ion-icon>
+          <ion-label>FakeStoreAPI Integration</ion-label>
+        </ion-chip>
+        <ion-chip color="medium">
+          <ion-icon name="sparkles-outline"></ion-icon>
+          <ion-label>Custom Pipes &amp; Directives</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </section>
+</ion-content>

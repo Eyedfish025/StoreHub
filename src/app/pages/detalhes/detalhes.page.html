@@ -1,0 +1,138 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/produtos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes do Produto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/carrinho-equipe" class="cart-button">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        @if (carrinhoService.totalItens() > 0) {
+          <ion-badge color="danger" class="cart-badge">
+            {{ carrinhoService.totalItens() }}
+          </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if (carregando) {
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Carregando informações do produto...</p>
+    </div>
+  } @else if (erro || !produto) {
+    <div class="error-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <h3>Produto não encontrado</h3>
+      <p>Não foi possível obter as informações deste item.</p>
+      <ion-button routerLink="/produtos" fill="outline">
+        Voltar ao Catálogo
+      </ion-button>
+    </div>
+  } @else {
+    <div class="detail-container">
+      <ion-grid>
+        <ion-row>
+          <!-- Coluna da Imagem -->
+          <ion-col size="12" size-md="6">
+            <div
+              class="image-container"
+              [appDestaquePromocao]="produto.price"
+              [appZoomHover]="1.04"
+            >
+              @if (produto.price < 50) {
+                <div class="promo-flag">
+                  <ion-icon name="flash"></ion-icon>
+                  Super Promoção StoreHub &lt; $50.00
+                </div>
+              }
+              <img [src]="produto.image" [alt]="produto.title" />
+            </div>
+          </ion-col>
+
+          <!-- Coluna dos Dados do Produto -->
+          <ion-col size="12" size-md="6">
+            <div class="info-card">
+              <ion-chip color="secondary" [outline]="true">
+                <ion-icon name="pricetag-outline"></ion-icon>
+                <ion-label>{{ produto.category | uppercase }}</ion-label>
+              </ion-chip>
+
+              <h1 class="product-title">{{ produto.title }}</h1>
+
+              <div class="rating-row">
+                <span class="stars">{{ produto.rating | avaliacaoEstrelas }}</span>
+                <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
+              </div>
+
+              <div class="price-box">
+                <span class="current-price">
+                  {{ produto.price | currency:'USD':'symbol':'1.2-2' }}
+                </span>
+                @if (produto.price < 50) {
+                  <span class="economy-note">
+                    Item elegível para desconto direto no checkout!
+                  </span>
+                }
+              </div>
+
+              <div class="description-block">
+                <h3>Descrição</h3>
+                <p>{{ produto.description }}</p>
+              </div>
+
+              <!-- Seletor de Quantidade -->
+              <div class="quantity-section">
+                <span class="quantity-label">Quantidade:</span>
+                <div class="quantity-controls">
+                  <ion-button
+                    fill="outline"
+                    size="small"
+                    (click)="decrementarQuantidade()"
+                    [disabled]="quantidade <= 1"
+                  >
+                    <ion-icon slot="icon-only" name="remove"></ion-icon>
+                  </ion-button>
+                  <span class="quantity-value">{{ quantidade }}</span>
+                  <ion-button
+                    fill="outline"
+                    size="small"
+                    (click)="incrementarQuantidade()"
+                  >
+                    <ion-icon slot="icon-only" name="add"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+
+              <!-- Ações -->
+              <div class="actions-section">
+                <ion-button
+                  expand="block"
+                  color="primary"
+                  size="large"
+                  (click)="adicionarAoCarrinho()"
+                >
+                  <ion-icon slot="start" name="bag-check-outline"></ion-icon>
+                  Adicionar ao Carrinho ({{ (produto.price * quantidade) | currency:'USD':'symbol':'1.2-2' }})
+                </ion-button>
+
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="dark"
+                  routerLink="/carrinho-equipe"
+                >
+                  <ion-icon slot="start" name="cart-outline"></ion-icon>
+                  Ir para Carrinho & Equipe
+                </ion-button>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  }
+</ion-content>
