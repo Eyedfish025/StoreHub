@@ -39,7 +39,7 @@ export class Produto {
   image!: string;
 
   @OneToOne(() => ProdutoRating, (rating) => rating.produto, { cascade: true })
-  rating!: ProdutoRating;
+  rating?: ProdutoRating;
 }
 
 @Entity('ItemCarrinho')

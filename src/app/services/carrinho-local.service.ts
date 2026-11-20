@@ -1,6 +1,11 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ItemCarrinho, Produto } from '../models/produto.model';
+import { Produto } from '../models/produto.model';
+
+export interface ItemCarrinhoLocal {
+  produto: Produto;
+  quantidade: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +14,7 @@ export class CarrinhoLocalService {
   private readonly storageKey = 'storehub_carrinho_v1';
 
   // State via Angular Signals
-  readonly itens = signal<ItemCarrinho[]>([]);
+  readonly itens = signal<ItemCarrinhoLocal[]>([]);
   readonly totalItens = computed(() =>
     this.itens().reduce((total, item) => total + item.quantidade, 0)
   );
@@ -21,8 +26,8 @@ export class CarrinhoLocalService {
   );
 
   // Reactive State via RxJS BehaviorSubject for template async binding
-  private readonly itensSubject = new BehaviorSubject<ItemCarrinho[]>([]);
-  readonly itens$: Observable<ItemCarrinho[]> = this.itensSubject.asObservable();
+  private readonly itensSubject = new BehaviorSubject<ItemCarrinhoLocal[]>([]);
+  readonly itens$: Observable<ItemCarrinhoLocal[]> = this.itensSubject.asObservable();
 
   private readonly totalItensSubject = new BehaviorSubject<number>(0);
   readonly totalItens$: Observable<number> = this.totalItensSubject.asObservable();
@@ -113,14 +118,14 @@ export class CarrinhoLocalService {
   /**
    * Retorna os itens atuais do carrinho
    */
-  obterItens(): ItemCarrinho[] {
+  obterItens(): ItemCarrinhoLocal[] {
     return this.itens();
   }
 
   /**
    * Atualiza os signals, subjects e sincroniza no localStorage
    */
-  private atualizarEstado(novosItens: ItemCarrinho[]): void {
+  private atualizarEstado(novosItens: ItemCarrinhoLocal[]): void {
     this.itens.set(novosItens);
     this.itensSubject.next(novosItens);
 
@@ -139,7 +144,7 @@ export class CarrinhoLocalService {
   /**
    * Salva o estado atual no localStorage sob a chave 'storehub_carrinho_v1'
    */
-  private salvarNoLocalStorage(itens: ItemCarrinho[]): void {
+  private salvarNoLocalStorage(itens: ItemCarrinhoLocal[]): void {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(itens));
     } catch (e) {
@@ -154,7 +159,7 @@ export class CarrinhoLocalService {
     try {
       const salvo = localStorage.getItem(this.storageKey);
       if (salvo) {
-        const parsed: ItemCarrinho[] = JSON.parse(salvo);
+        const parsed: ItemCarrinhoLocal[] = JSON.parse(salvo);
         if (Array.isArray(parsed)) {
           this.atualizarEstado(parsed);
           return;

@@ -27,8 +27,10 @@ import {
   AlertController,
   ToastController,
 } from '@ionic/angular/standalone';
-import { CarrinhoLocalService } from '../../services/carrinho-local.service';
-import { ItemCarrinho } from '../../models/produto.model';
+import {
+  CarrinhoLocalService,
+  ItemCarrinhoLocal,
+} from '../../services/carrinho-local.service';
 import { ResumoTextoPipe } from '../../pipes/resumo-texto.pipe';
 
 export interface MembroEquipe {
@@ -109,15 +111,15 @@ export class CarrinhoEquipePage {
     },
   ];
 
-  incrementar(item: ItemCarrinho): void {
+  incrementar(item: ItemCarrinhoLocal): void {
     this.carrinhoService.adicionar(item.produto, 1);
   }
 
-  decrementar(item: ItemCarrinho): void {
+  decrementar(item: ItemCarrinhoLocal): void {
     this.carrinhoService.decrementar(item.produto.id);
   }
 
-  remover(item: ItemCarrinho): void {
+  remover(item: ItemCarrinhoLocal): void {
     this.carrinhoService.remover(item.produto.id);
   }
 

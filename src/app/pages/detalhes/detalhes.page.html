@@ -65,7 +65,7 @@
 
               <div class="rating-row">
                 <span class="stars">{{ produto.rating | avaliacaoEstrelas }}</span>
-                <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
+                <span class="count-badge">({{ produto.rating?.count || 0 }} opiniões de clientes)</span>
               </div>
 
               <div class="price-box">
