@@ -11,7 +11,7 @@ export class ProdutosApiService {
   private readonly baseUrl = 'https://fakestoreapi.com';
 
   /**
-   * Retorna todos os produtos do catálogo FakeStoreAPI
+   * Retorna todos os produtos do catálogo
    */
   getTodosProdutos(): Observable<Produto[]> {
     return this.http.get<Produto[]>(`${this.baseUrl}/products`);

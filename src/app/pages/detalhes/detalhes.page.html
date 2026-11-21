@@ -5,13 +5,16 @@
     </ion-buttons>
     <ion-title>Detalhes do Produto</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/carrinho-equipe" class="cart-button">
+      <ion-button routerLink="/carrinho" class="cart-button">
         <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
         @if (carrinhoService.totalItens() > 0) {
           <ion-badge color="danger" class="cart-badge">
             {{ carrinhoService.totalItens() }}
           </ion-badge>
         }
+      </ion-button>
+      <ion-button routerLink="/equipe">
+        <ion-icon slot="icon-only" name="people-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -46,7 +49,7 @@
               @if (produto.price < 50) {
                 <div class="promo-flag">
                   <ion-icon name="flash"></ion-icon>
-                  Super Promoção StoreHub &lt; $50.00
+                  Oferta Especial StoreHub
                 </div>
               }
               <img [src]="produto.image" [alt]="produto.title" />
@@ -70,7 +73,7 @@
 
               <div class="price-box">
                 <span class="current-price">
-                  {{ produto.price | currency:'USD':'symbol':'1.2-2' }}
+                  {{ produto.price | currency:'BRL':'symbol':'1.2-2' }}
                 </span>
                 @if (produto.price < 50) {
                   <span class="economy-note">
@@ -116,17 +119,17 @@
                   (click)="adicionarAoCarrinho()"
                 >
                   <ion-icon slot="start" name="bag-check-outline"></ion-icon>
-                  Adicionar ao Carrinho ({{ (produto.price * quantidade) | currency:'USD':'symbol':'1.2-2' }})
+                  Adicionar ao Carrinho ({{ (produto.price * quantidade) | currency:'BRL':'symbol':'1.2-2' }})
                 </ion-button>
 
                 <ion-button
                   expand="block"
                   fill="outline"
                   color="dark"
-                  routerLink="/carrinho-equipe"
+                  routerLink="/carrinho"
                 >
                   <ion-icon slot="start" name="cart-outline"></ion-icon>
-                  Ir para Carrinho & Equipe
+                  Ir para o Carrinho
                 </ion-button>
               </div>
             </div>

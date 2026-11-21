@@ -136,7 +136,7 @@ export class DetalhesPage implements OnInit {
           text: 'Ver Carrinho',
           role: 'info',
           handler: () => {
-            this.router.navigate(['/carrinho-equipe']);
+            this.router.navigate(['/carrinho']);
           },
         },
       ],

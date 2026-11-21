@@ -41,7 +41,7 @@
       <div class="empty-cart-card">
         <ion-icon name="cart-outline" class="empty-cart-icon"></ion-icon>
         <h3>Seu carrinho está vazio</h3>
-        <p>Explore nosso catálogo da FakeStoreAPI e adicione produtos com preços incríveis!</p>
+        <p>Explore nosso catálogo e adicione produtos ao seu carrinho!</p>
         <ion-button routerLink="/produtos" color="primary" size="default">
           <ion-icon slot="start" name="grid-outline"></ion-icon>
           Ver Produtos
@@ -65,10 +65,10 @@
                       {{ item.produto.title | resumoTexto: 50 }}
                     </h3>
                     <p class="unit-price">
-                      Unitário: {{ item.produto.price | currency:'USD':'symbol':'1.2-2' }}
+                      Unitário: {{ item.produto.price | currency:'BRL':'symbol':'1.2-2' }}
                     </p>
                     <p class="total-item-price">
-                      Subtotal: <strong>{{ (item.produto.price * item.quantidade) | currency:'USD':'symbol':'1.2-2' }}</strong>
+                      Subtotal: <strong>{{ (item.produto.price * item.quantidade) | currency:'BRL':'symbol':'1.2-2' }}</strong>
                     </p>
                   </ion-label>
 
@@ -126,10 +126,10 @@
                 </div>
 
                 <div class="summary-line">
-                  <span>Persistência Local:</span>
+                  <span>Segurança:</span>
                   <ion-chip color="success" size="small">
                     <ion-icon name="checkmark-circle"></ion-icon>
-                    <ion-label>storehub_carrinho_v1</ion-label>
+                    <ion-label>Ambiente Protegido</ion-label>
                   </ion-chip>
                 </div>
 
@@ -143,7 +143,7 @@
                 <div class="summary-total-row">
                   <span>Total Geral:</span>
                   <span class="final-subtotal">
-                    {{ carrinhoService.subtotal() | currency:'USD':'symbol':'1.2-2' }}
+                    {{ carrinhoService.subtotal() | currency:'BRL':'symbol':'1.2-2' }}
                   </span>
                 </div>
 
@@ -188,8 +188,7 @@
       </div>
     </div>
     <p class="team-intro">
-      Projeto desenvolvido para a disciplina de Desenvolvimento Mobile com arquitetura escalável
-      baseada em <strong>Angular 100% Standalone</strong>, <strong>Ionic 8</strong> e controle de fluxo moderno.
+      Equipe técnica de desenvolvimento responsável pela arquitetura, serviços e interfaces da plataforma móvel StoreHub.
     </p>
 
     <ion-grid>
@@ -204,6 +203,7 @@
                   </div>
                   <div>
                     <ion-card-title class="member-name">{{ membro.nome }}</ion-card-title>
+                    <ion-badge color="light" class="member-matricula">Matrícula: {{ membro.matricula }}</ion-badge>
                     <ion-card-subtitle class="member-role">{{ membro.papel }}</ion-card-subtitle>
                   </div>
                 </div>
@@ -230,27 +230,27 @@
       <div class="tech-chips">
         <ion-chip color="primary">
           <ion-icon name="sparkles"></ion-icon>
-          <ion-label>Ionic 8 Framework</ion-label>
+          <ion-label>Ionic Framework</ion-label>
         </ion-chip>
         <ion-chip color="danger">
           <ion-icon name="sparkles"></ion-icon>
-          <ion-label>Angular Standalone (Zero NgModules)</ion-label>
+          <ion-label>Angular Standalone</ion-label>
         </ion-chip>
         <ion-chip color="secondary">
           <ion-icon name="flash"></ion-icon>
-          <ion-label>Modern Flow (&#64;if &amp; &#64;for)</ion-label>
+          <ion-label>TypeScript</ion-label>
         </ion-chip>
         <ion-chip color="success">
           <ion-icon name="card-outline"></ion-icon>
-          <ion-label>LocalStorage Persistente</ion-label>
+          <ion-label>Armazenamento Local</ion-label>
         </ion-chip>
         <ion-chip color="warning">
           <ion-icon name="globe-outline"></ion-icon>
-          <ion-label>FakeStoreAPI Integration</ion-label>
+          <ion-label>Consumo de APIs REST</ion-label>
         </ion-chip>
         <ion-chip color="medium">
           <ion-icon name="sparkles-outline"></ion-icon>
-          <ion-label>Custom Pipes &amp; Directives</ion-label>
+          <ion-label>UI Components &amp; Diretivas</ion-label>
         </ion-chip>
       </div>
     </div>

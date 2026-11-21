@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Equipe de Desenvolvimento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/produtos">
+        <ion-icon slot="icon-only" name="grid-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding team-content">
+  <!-- Apresentação Institucional -->
+  <section class="team-hero">
+    <h1>Equipe StoreHub</h1>
+    <p class="subtitle">
+      Conheça os desenvolvedores responsáveis pela concepção, arquitetura técnica e implementação da plataforma StoreHub.
+    </p>
+
+    <div class="team-quick-stats">
+      <ion-chip color="light">
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-label>6 Integrantes</ion-label>
+      </ion-chip>
+      <ion-chip color="light">
+        <ion-icon name="phone-portrait-outline"></ion-icon>
+        <ion-label>Ionic Framework</ion-label>
+      </ion-chip>
+      <ion-chip color="light">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <ion-label>Angular Standalone</ion-label>
+      </ion-chip>
+    </div>
+  </section>
+
+  <!-- Grade dos Integrantes -->
+  <section class="members-grid-section">
+    <ion-grid>
+      <ion-row>
+        @for (membro of integrantes; track membro.matricula) {
+          <ion-col size="12" size-md="6" size-xl="4">
+            <ion-card class="member-card">
+              <ion-card-header>
+                <div class="member-profile-header">
+                  <div class="avatar-circle">
+                    <ion-icon [name]="membro.avatarIcon"></ion-icon>
+                  </div>
+                  <div class="member-title-box">
+                    <ion-card-title class="member-name">{{ membro.nome }}</ion-card-title>
+                    <div class="member-matricula">
+                      <ion-icon name="card-outline"></ion-icon>
+                      <span>Matrícula: <strong>{{ membro.matricula }}</strong></span>
+                    </div>
+                    <ion-card-subtitle class="member-role">{{ membro.papel }}</ion-card-subtitle>
+                  </div>
+                </div>
+              </ion-card-header>
+
+              <ion-card-content>
+                <p class="member-desc">{{ membro.responsabilidades }}</p>
+
+                @if (membro.contato) {
+                  <div class="member-footer">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <span>{{ membro.contato }}</span>
+                  </div>
+                }
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  </section>
+
+  <!-- Informações sobre a Plataforma -->
+  <section class="about-platform-section">
+    <ion-card class="about-card">
+      <ion-card-header>
+        <ion-card-subtitle>SOBRE O PROJETO</ion-card-subtitle>
+        <ion-card-title>Plataforma StoreHub</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          O StoreHub é uma aplicação de catálogo e e-commerce moderna, com foco em experiência mobile fluida,
+          integração de serviços REST, gestão de estado local e interface baseada no sistema de design do Ionic.
+        </p>
+
+        <div class="about-actions">
+          <ion-button routerLink="/home" fill="solid" color="primary">
+            <ion-icon slot="start" name="home-outline"></ion-icon>
+            Início
+          </ion-button>
+          <ion-button routerLink="/produtos" fill="outline" color="secondary">
+            <ion-icon slot="start" name="grid-outline"></ion-icon>
+            Catálogo de Produtos
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

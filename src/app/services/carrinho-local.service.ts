@@ -10,7 +10,7 @@ export type ItemCarrinhoLocal = ItemCarrinho;
 export class CarrinhoLocalService {
   private readonly storageKey = 'storehub_carrinho_v1';
 
-  // State via Angular Signals
+  // Estado do carrinho gerenciado com Signals
   readonly itens = signal<ItemCarrinho[]>([]);
   readonly totalItens = computed(() =>
     this.itens().reduce((total, item) => total + item.quantidade, 0)
@@ -22,7 +22,7 @@ export class CarrinhoLocalService {
     )
   );
 
-  // Reactive State via RxJS BehaviorSubject for template async binding
+  // Observables para interoperabilidade assíncrona
   private readonly itensSubject = new BehaviorSubject<ItemCarrinho[]>([]);
   readonly itens$: Observable<ItemCarrinho[]> = this.itensSubject.asObservable();
 

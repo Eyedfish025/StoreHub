@@ -83,31 +83,66 @@ export class CarrinhoEquipePage {
   private readonly toastCtrl = inject(ToastController);
   private readonly router = inject(Router);
 
-  // Roster da Equipe de Desenvolvimento StoreHub
-  readonly equipe: MembroEquipe[] = [
+  readonly equipe = [
     {
-      nome: 'Desenvolvedor Full Stack',
-      papel: 'Arquiteto de Software & Mobile Lead',
+      id: 1,
+      nome: 'Sérgio Guilherme F. de Lima',
+      matricula: '01796267',
+      papel: 'Páginas e Roteamento (1,0 pt)',
       responsabilidades:
-        'Arquitetura Angular Standalone, integração FakeStoreAPI e persistência em LocalStorage.',
-      avatarIcon: 'person-circle-outline',
-      contato: 'equipe@storehub.dev',
+        'Organização da arquitetura Standalone, abas (ion-tabs) e componentes visuais nativos do Ionic.',
+      avatarIcon: 'navigate-circle-outline',
+      contato: 'sergio.lima@storehub.dev',
     },
     {
-      nome: 'Especialista em Interface Ionic',
-      papel: 'UI / UX & Design System',
+      id: 2,
+      nome: 'Jonathan Gustavo Gomes dos Santos (Jônatas)',
+      matricula: '01821597',
+      papel: 'Consumo de API (1,5 pt)',
       responsabilidades:
-        'Componentes Ionic 8, responsividade, diretivas de animação (Hover Zoom, Destaque Promoção).',
-      avatarIcon: 'sparkles-outline',
-      contato: 'design@storehub.dev',
+        'Integração com a FakeStoreAPI (3 métodos GET: produtos, categorias e detalhes) via HttpClient.',
+      avatarIcon: 'cloud-download-outline',
+      contato: 'jonathan.santos@storehub.dev',
     },
     {
-      nome: 'Engenheiro de Qualidade & Testes',
-      papel: 'QA & State Management',
+      id: 3,
+      nome: 'Emilly Marrocos Mendonça Ciriaco',
+      matricula: '01842163',
+      papel: 'Segundo Service e Página do Carrinho (1,0 pt)',
       responsabilidades:
-        'Fluxo reativo do carrinho de compras, Pipes standalone e validação de regras de negócio.',
-      avatarIcon: 'checkmark-circle-outline',
-      contato: 'qa@storehub.dev',
+        'Gerenciamento do estado do carrinho, cálculo de totais, persistência no localStorage e página dedicada /carrinho.',
+      avatarIcon: 'cart-outline',
+      contato: 'emilly.ciriaco@storehub.dev',
+    },
+    {
+      id: 4,
+      nome: 'Mylena Monteiro Alves',
+      matricula: '01855595',
+      papel: 'Pipes (1,0 pt, 0,25 cada)',
+      responsabilidades:
+        'Pipes de formatação (CurrencyPipe, UpperCasePipe, ResumoTextoPipe, AvaliacaoEstrelasPipe) nos templates HTML.',
+      avatarIcon: 'color-wand-outline',
+      contato: 'mylena.alves@storehub.dev',
+    },
+    {
+      id: 5,
+      nome: 'Felix Luiz Cavalcanti Bomfim Neto',
+      matricula: '01810567',
+      papel: 'Diretivas e Fluxo (1,5 pt)',
+      responsabilidades:
+        'Diretivas personalizadas (DestaquePromocaoDirective, ZoomHoverDirective) e controle de fluxo (@if e @for).',
+      avatarIcon: 'flash-outline',
+      contato: 'felix.neto@storehub.dev',
+    },
+    {
+      id: 6,
+      nome: 'José Rhawan Michel dos Santos',
+      matricula: '01864924',
+      papel: 'Parâmetro por Rota (1,0 pt extra)',
+      responsabilidades:
+        'Transmissão de ID nos cards e captura dinâmica na rota /detalhes/:id via ActivatedRoute.',
+      avatarIcon: 'git-network-outline',
+      contato: 'jose.santos@storehub.dev',
     },
   ];
 
@@ -151,13 +186,12 @@ export class CarrinhoEquipePage {
 
     const alert = await this.alertCtrl.create({
       header: '🎉 Checkout StoreHub',
-      subHeader: `Total: ${subtotal.toLocaleString('en-US', {
+      subHeader: `Total: ${subtotal.toLocaleString('pt-BR', {
         style: 'currency',
-        currency: 'USD',
+        currency: 'BRL',
       })}`,
-      message: `Você está prestes a concluir o pedido de ${totalItens} ${
-        totalItens === 1 ? 'item' : 'itens'
-      }. Selecione a forma de pagamento simulada:`,
+      message: `Você está prestes a concluir o pedido de ${totalItens} ${totalItens === 1 ? 'item' : 'itens'
+        }. Selecione a forma de pagamento simulada:`,
       inputs: [
         {
           type: 'radio',
@@ -199,7 +233,7 @@ export class CarrinhoEquipePage {
       header: 'Compra Realizada!',
       subHeader: 'Pedido #SH-' + Math.floor(100000 + Math.random() * 900000),
       message:
-        'Obrigado por comprar no StoreHub! Seu pedido foi confirmado e o carrinho foi limpo.',
+        'Obrigado por comprar no StoreHub! Seu pedido foi confirmado com sucesso.',
       buttons: [
         {
           text: 'Voltar ao Início',

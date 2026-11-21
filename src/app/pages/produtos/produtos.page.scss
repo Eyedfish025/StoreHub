@@ -13,15 +13,37 @@
 }
 
 .search-toolbar {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 4px;
-  --padding-bottom: 4px;
+  --background: #ffffff;
+  --border-color: #e2e8f0;
+  border-bottom: 1px solid #f1f5f9;
+
+  ion-searchbar {
+    --background: #f1f5f9;
+    --border-radius: 12px;
+    --box-shadow: none;
+    padding: 6px 0;
+  }
 }
 
 .segment-toolbar {
-  --padding-start: 8px;
-  --padding-end: 8px;
+  --background: #ffffff;
+  --border-color: #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+
+  ion-segment {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.toolbar-constrained {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 12px;
 }
 
 .catalog-summary {

@@ -1,3 +1,30 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="home" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Início</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="produtos" [routerLink]="['/produtos']">
+        <ion-icon name="grid-outline"></ion-icon>
+        <ion-label>Produtos</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="carrinho" [routerLink]="['/carrinho']">
+        <ion-icon name="cart-outline"></ion-icon>
+        <ion-label>Carrinho</ion-label>
+        @if (carrinhoService.totalItens() > 0) {
+          <ion-badge color="danger">
+            {{ carrinhoService.totalItens() }}
+          </ion-badge>
+        }
+      </ion-tab-button>
+
+      <ion-tab-button tab="equipe" [routerLink]="['/equipe']">
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-label>Equipe</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-app>

@@ -11,6 +11,9 @@ $RECYCLE.BIN/
 
 *.log
 log.txt
+*.sqlite
+*.sqlite3
+*.db
 
 
 /.sourcemaps

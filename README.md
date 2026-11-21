@@ -1,6 +1,6 @@
 # StoreHub — Aplicativo de E-Commerce (Ionic 8 + Angular Standalone)
 
-O **StoreHub** é uma aplicação completa e moderna de comércio eletrônico desenvolvida para atender aos critérios avaliativos da disciplina de Desenvolvimento Mobile. A aplicação foi construída com **Ionic 8** e **Angular 100% Standalone**, consumindo a API pública [FakeStoreAPI](https://fakestoreapi.com) para exibição de catálogo de produtos, categorias, detalhes individuais e gerenciamento de carrinho com persistência em `localStorage`.
+O **StoreHub** é uma aplicação completa e moderna de comércio eletrônico desenvolvida para atender aos critérios avaliativos da disciplina de Desenvolvimento Mobile. A aplicação foi construída com **Ionic Framework** e **Angular 100% Standalone**, consumindo a API pública [FakeStoreAPI](https://fakestoreapi.com) para exibição de catálogo de produtos, categorias dinâmicas, detalhes individuais, sistema de navegação por abas (`ion-tabs`) e gerenciamento de carrinho com persistência em `localStorage`.
 
 ---
 
@@ -8,106 +8,112 @@ O **StoreHub** é uma aplicação completa e moderna de comércio eletrônico de
 
 * **100% Standalone Components:** Zero `NgModules`. Todas as páginas, diretivas e pipes utilizam `standalone: true`.
 * **Controle de Fluxo Moderno do Angular:** Uso exclusivo dos blocos nativos `@if` e `@for` (zero ocorrências de `*ngIf` ou `*ngFor`).
-* **Design Responsivo com Ionic 8:** Interface rica com `IonHeader`, `IonToolbar`, `IonCard`, `IonGrid`, `IonSegment`, `IonSearchbar`, `IonBadge`, `IonChip`, `IonThumbnail` e `IonList`.
-* **Serviços Reativos e Tipados:** Interfaces TypeScript estritas (`Produto`, `ItemCarrinho`) com injeção de dependência via `inject()` e `HttpClient`.
-* **Persistência de Estado Local:** Carrinho salvo automaticamente no navegador sob a chave `storehub_carrinho_v1`.
+* **Navegação por Abas (`ion-tabs`):** Barra inferior de abas no layout raiz para alternância instantânea entre Início, Produtos, Carrinho e Equipe.
+* **Componentes Nativos do Ionic:** `ion-header`, `ion-toolbar`, `ion-content`, `ion-card`, `ion-list`, `ion-badge`, `ion-button` e `ion-tabs`.
+* **Serviços Reativos e Tipados:** Injeção de dependência via `inject()` e `HttpClient` configurado via `provideHttpClient()`.
+* **Persistência de Estado Local:** Carrinho sincronizado no navegador sob a chave `storehub_carrinho_v1`.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Estrutura de Páginas e Rotas
 
 ```text
 src/
 ├── main.ts                                         # Bootstrap standalone com provideHttpClient() e provideIonicAngular()
 └── app/
-    ├── app.component.ts                            # Root IonApp + IonRouterOutlet + registro completo de Ionicons (addIcons)
-    ├── app.routes.ts                               # Rotas com lazy loading via loadComponent
+    ├── app.component.html                          # ion-tabs + ion-tab-bar (Início, Produtos, Carrinho com badge, Equipe)
+    ├── app.component.ts                            # Root component + registro completo de Ionicons (addIcons)
+    ├── app.routes.ts                               # Rotas standalone com lazy loading via loadComponent
     ├── models/
     │   └── produto.model.ts                        # Interfaces Produto, ProdutoRating e ItemCarrinho
     ├── services/
-    │   ├── produtos-api.service.ts                 # Consumo da FakeStoreAPI via HttpClient
-    │   └── carrinho-local.service.ts               # Gerenciamento reativo e persistência no localStorage
+    │   ├── produtos-api.service.ts                 # Consumo da FakeStoreAPI via HttpClient (3 métodos GET)
+    │   └── carrinho-local.service.ts               # Gerenciamento reativo do carrinho e persistência no localStorage
     ├── pipes/
-    │   ├── resumo-texto.pipe.ts                    # Pipe standalone resumoTexto (trunca textos longos)
-    │   └── avaliacao-estrelas.pipe.ts              # Pipe standalone avaliacaoEstrelas (estrelas visuais ★★★★☆)
+    │   ├── resumo-texto.pipe.ts                    # Pipe standalone resumoTexto (trunca descrições)
+    │   └── avaliacao-estrelas.pipe.ts              # Pipe standalone avaliacaoEstrelas (estrelas visuais ★★★★★)
     ├── directives/
     │   ├── destaque-promocao.directive.ts          # Diretiva [appDestaquePromocao] (@HostBinding para itens < $50)
     │   └── zoom-hover.directive.ts                 # Diretiva [appZoomHover] (@HostListener mouseenter/mouseleave)
     └── pages/
-        ├── home/home.page.ts                       # Banner de boas-vindas, chips de categorias e ofertas em destaque
-        ├── produtos/produtos.page.ts               # Catálogo completo, busca em tempo real e filtro por segmento
-        ├── detalhes/detalhes.page.ts               # Detalhes do item por :id, seletor de quantidade e adição ao carrinho
-        └── carrinho-equipe/carrinho-equipe.page.ts # Gerenciamento do carrinho (+, -, remover, checkout) e roster da equipe
+        ├── home/home.page.ts                       # /home: Banner de boas-vindas, chips de categorias e ofertas
+        ├── produtos/produtos.page.ts               # /produtos: Catálogo com busca em tempo real e filtros de categoria
+        ├── detalhes/detalhes.page.ts               # /detalhes/:id: Parâmetro dinâmico via ActivatedRoute
+        ├── carrinho/carrinho.page.ts               # /carrinho: Gestão completa de itens, subtotal e checkout simulado
+        ├── equipe/equipe.page.ts                   # /equipe: Painel institucional dos 6 integrantes (3 vertentes)
+        └── carrinho-equipe/carrinho-equipe.page.ts # /carrinho-equipe: Página unificada mantida para compatibilidade
 ```
+
+---
+
+## 👥 Matriz de Responsabilidades da Equipe (6 Integrantes)
+
+| Integrante & Matrícula | Requisito Atribuído | Pontos | 1. O que faz no projeto | 2. Onde está no código | 3. Onde ver e testar em tela |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| **1. Sérgio Guilherme F. de Lima**<br>`Matrícula: 01796267` | **Páginas e Roteamento** | 1,0 pt | Organiza a arquitetura Standalone, o menu de abas (`ion-tabs`) e as páginas estilizadas do app. | `app.routes.ts`, `app.component.html` e arquivos `.page.ts/.html` | Navegar pela barra de abas inferior (`ion-tabs`) e alternar entre `/home`, `/produtos`, `/carrinho` e `/equipe`. |
+| **2. Jonathan Gustavo Gomes dos Santos (Jônatas)**<br>`Matrícula: 01821597` | **Consumo de API** | 1,5 pt | Realiza requisições HTTP à Fake Store API para buscar produtos, categorias e detalhes. | `produtos-api.service.ts` e `provideHttpClient()` em `main.ts` | Exibir o carregamento dinâmico dos filtros de categoria e catálogo real na vitrine. |
+| **3. Emilly Marrocos Mendonça Ciriaco**<br>`Matrícula: 01842163` | **Segundo Service e Página do Carrinho** | 1,0 pt | Gerencia estado reativo, badge de contagem, cálculo de subtotal, persistência local e página do carrinho. | `carrinho-local.service.ts`, `carrinho.page.ts/.html` sob a chave `storehub_carrinho_v1` | Adicionar/remover itens, recarregar a página (F5) e conferir dados somados e persistidos no carrinho. |
+| **4. Mylena Monteiro Alves**<br>`Matrícula: 01855595` | **Pipes de Formatação** | 1,0 pt<br>(0,25 cada) | Formata valores em moeda, categorias em caixa alta, resumos de texto e notas em estrelas. | `resumo-texto.pipe.ts`, `avaliacao-estrelas.pipe.ts`, `CurrencyPipe` e `UpperCasePipe` | Verificar nos cards o preço em dólar ($), tags em maiúsculo, textos truncados (...) e estrelas visuais. |
+| **5. Felix Luiz Cavalcanti Bomfim Neto**<br>`Matrícula: 01810567` | **Diretivas e Fluxo** | 1,5 pt | Controla renderização limpa (`@if` / `@for`) e estiliza cards com destaque promocional e zoom interativo. | `destaque-promocao.directive.ts`, `zoom-hover.directive.ts` e blocos `@if`/`@for` | Spinner com `@if`, vitrine com `@for`, borda verde em itens < $50 e animação de zoom ao passar o mouse. |
+| **6. José Rhawan Michel dos Santos**<br>`Matrícula: 01864924` | **Parâmetro por Rota** | 1,0 pt<br>(Extra) | Transmite o ID do produto clicado para carregar sua página individual exclusiva via rota parametrizada. | Rota `detalhes/:id`, `[routerLink]` nos cards e leitura via `ActivatedRoute` | Clicar em qualquer card de produto e abrir a tela individual com imagem ampliada e especificações. |
 
 ---
 
 ## 🛠️ Tecnologias e Recursos Implementados
 
-### 1. Integração com FakeStoreAPI (`ProdutosApiService`)
-- `getTodosProdutos(): Observable<Produto[]>`: Obtém a listagem completa de produtos.
-- `getCategorias(): Observable<string[]>`: Lista as categorias existentes.
-- `getProdutoPorId(id: number): Observable<Produto>`: Detalha o produto selecionado via rota dinâmica `:id`.
+### 1. Consumo da FakeStoreAPI (`ProdutosApiService`)
+- `getTodosProdutos(): Observable<Produto[]>`: Obtém a listagem completa de produtos (`GET /products`).
+- `getCategorias(): Observable<string[]>`: Lista as categorias existentes (`GET /products/categories`).
+- `getProdutoPorId(id: number): Observable<Produto>`: Detalha o produto selecionado (`GET /products/:id`).
 
 ### 2. Carrinho Reativo & Persistente (`CarrinhoLocalService`)
-- Adição de novos produtos ou incremento de quantidade.
+- Adição de produtos ou incremento de quantidade.
 - Decremento com remoção automática ao atingir 0.
 - Exclusão individual e limpeza completa do carrinho.
 - Cálculo reativo do total de itens (`totalItens`) e subtotal financeiro (`subtotal`).
 - Sincronização automática com `localStorage` sob a chave `storehub_carrinho_v1` resistente a recarregamentos (`F5`).
 
-### 3. Rotas & Navegação (Lazy Loading)
-- `/home` (`HomePage`): Hero banner interativo, chips de categorias para navegação rápida e ofertas promocionais.
-- `/produtos` (`ProdutosPage`): Catálogo com barra de busca em tempo real (`IonSearchbar`) e segmentação (`IonSegment`).
-- `/detalhes/:id` (`DetalhesPage`): Leitura do parâmetro de rota dinâmica, apresentação visual do produto e seleção de quantidade.
-- `/carrinho-equipe` (`CarrinhoEquipePage`): Checkout interativo com alerta simulado de pagamento e roster de apresentação da equipe de desenvolvimento.
+### 3. Navegação com Abas (`ion-tabs`)
+- Aba **Início** (`/home`): Hero banner interativo, chips de categorias e ofertas promocionais.
+- Aba **Produtos** (`/produtos`): Catálogo com busca em tempo real (`ion-searchbar`) e segmentos (`ion-segment`).
+- Aba **Carrinho** (`/carrinho`): Gestão de quantidades, remoção, subtotal, badge reativo e checkout simulado.
+- Aba **Equipe** (`/equipe`): Apresentação dos 6 integrantes com suas respectivas vertentes e regras de apresentação.
+- Rota Dinâmica **Detalhes** (`/detalhes/:id`): Tela dedicada do produto selecionado.
 
 ### 4. Pipes Customizados & Nativos
-- `resumoTexto` (`ResumoTextoPipe`): Trunca textos de títulos e descrições com controle de caracteres e sufixo.
-- `avaliacaoEstrelas` (`AvaliacaoEstrelasPipe`): Converte valores numéricos em estrelas visuais, ex: `★★★★☆ (4.2)`.
+- `resumoTexto` (`ResumoTextoPipe`): Trunca textos de títulos e descrições com controle de caracteres.
+- `avaliacaoEstrelas` (`AvaliacaoEstrelasPipe`): Converte valores numéricos em estrelas visuais, ex: `★★★★★ (4.6)`.
 - `CurrencyPipe` nativo do Angular para formatação de moeda em dólares (`USD`).
 - `UpperCasePipe` nativo para padronização de categorias.
 
 ### 5. Diretivas Customizadas
-- `[appDestaquePromocao]` (`DestaquePromocaoDirective`): Aplica automaticamente borda verde (`#2dd36f`), sombra glow e sutil fundo colorido a produtos com valor inferior a $50.00 usando `@HostBinding`.
-- `[appZoomHover]` (`ZoomHoverDirective`): Efeito suave de escala e elevação com transições CSS via `@HostListener` (`mouseenter` / `mouseleave`).
+- `[appDestaquePromocao]` (`DestaquePromocaoDirective`): Aplica automaticamente borda verde (`#2dd36f`), sombra glow e fundo sutil em produtos com valor inferior a $50.00 usando `@HostBinding`.
+- `[appZoomHover]` (`ZoomHoverDirective`): Efeito suave de escala e elevação visual via `@HostListener` (`mouseenter` / `mouseleave`).
 
 ---
 
-## 📋 Checklist de Validação
+## 📋 Checklist de Conformidade da Disciplina
 
-- [x] `provideHttpClient()` registrado no `src/main.ts`.
-- [x] Todos os Ionicons registrados via `addIcons()` no `app.component.ts`.
-- [x] Zero ocorrências de `*ngIf` ou `*ngFor` em todos os templates (100% `@if` e `@for`).
-- [x] Produtos com preço inferior a `$50.00` recebem destaque visual via `[appDestaquePromocao]`.
-- [x] Persistência do carrinho no `localStorage` sob a chave `storehub_carrinho_v1`.
-- [x] Compilação de produção executada com sucesso (`npm run build`).
+- [x] **100% Standalone Components:** Nenhum componente utiliza `NgModule`.
+- [x] **Zero ocorrências de `*ngIf` ou `*ngFor`:** 100% migrado para a nova sintaxe nativa `@if` e `@for`.
+- [x] **Componentes do Ionic obrigatórios:** `ion-header`, `ion-toolbar`, `ion-content`, `ion-card`, `ion-list`, `ion-badge`, `ion-button` e `ion-tabs`.
+- [x] **Abas de navegação:** `ion-tabs` ativo e permitindo navegar livremente entre todas as abas.
+- [x] **Página Equipe:** Apresenta os 6 integrantes com nomes completos, fotos/ícones, papéis e o que cada um fez.
+- [x] **Rotas Standalone:** `/home`, `/produtos`, `/detalhes/:id`, `/carrinho` e `/equipe` devidamente configuradas.
+- [x] **Build de Produção:** Testado e aprovado com sucesso via `npm run build`.
 
 ---
 
 ## 💻 Como Executar
 
-### Pré-requisitos
-* Node.js (v18+)
-* NPM ou Yarn
+### 1. Iniciar o servidor de desenvolvimento:
+```bash
+npm start
+# ou
+npx ionic serve
+```
 
-### Passo a Passo
-
-1. **Instalar dependências (caso necessário):**
-   ```bash
-   npm install
-   ```
-
-2. **Iniciar o servidor de desenvolvimento:**
-   ```bash
-   npm start
-   # ou
-   npx ionic serve
-   ```
-   
-3. **Gerar build de produção:**
-   ```bash
-   npm run build
-   ```
-
-  
+### 2. Gerar build de produção:
+```bash
+npm run build
+```

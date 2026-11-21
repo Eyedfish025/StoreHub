@@ -10,7 +10,7 @@
       <ion-button routerLink="/produtos">
         <ion-icon slot="icon-only" name="grid-outline"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/carrinho-equipe" class="cart-button">
+      <ion-button routerLink="/carrinho" class="cart-button">
         <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
         @if (carrinhoService.totalItens() > 0) {
           <ion-badge color="danger" class="cart-badge">
@@ -18,35 +18,39 @@
           </ion-badge>
         }
       </ion-button>
+      <ion-button routerLink="/equipe">
+        <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <!-- Hero Banner -->
-  <section class="hero-banner">
-    <div class="hero-content">
-      <div class="hero-tag">
-        <ion-icon name="sparkles"></ion-icon>
-        <span>Ofertas Especiais de Lançamento</span>
+  <div class="page-container">
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <ion-icon name="sparkles"></ion-icon>
+          <span>Ofertas Especiais de Lançamento</span>
+        </div>
+        <h1>Bem-vindo ao StoreHub</h1>
+        <p>
+          Sua loja com os melhores produtos, ofertas exclusivas e entrega rápida.
+          Aproveite promoções especiais com condições imperdíveis!
+        </p>
+        <div class="hero-actions">
+          <ion-button routerLink="/produtos" class="btn-hero-primary" size="default">
+            <ion-icon slot="start" name="grid-outline"></ion-icon>
+            Explorar Catálogo Completo
+          </ion-button>
+          <ion-button routerLink="/equipe" class="btn-hero-secondary" fill="outline" size="default">
+            <ion-icon slot="start" name="people-outline"></ion-icon>
+            Conhecer a Equipe
+          </ion-button>
+        </div>
       </div>
-      <h1>Bem-vindo ao StoreHub</h1>
-      <p>
-        Sua loja inteligente com os melhores produtos da FakeStoreAPI.
-        Aproveite promoções exclusivas abaixo de $50 com entrega relâmpago!
-      </p>
-      <div class="hero-actions">
-        <ion-button routerLink="/produtos" color="light" size="default">
-          <ion-icon slot="start" name="grid-outline"></ion-icon>
-          Explorar Catálogo Completo
-        </ion-button>
-        <ion-button routerLink="/carrinho-equipe" fill="outline" color="light" size="default">
-          <ion-icon slot="start" name="people-outline"></ion-icon>
-          Equipe & Carrinho
-        </ion-button>
-      </div>
-    </div>
-  </section>
+    </section>
 
   <!-- Categorias em Chips -->
   <section class="section-container">
@@ -80,15 +84,15 @@
           <ion-icon name="flash"></ion-icon>
           Preços Imperdíveis
         </span>
-        <h2>Ofertas em Destaque (&lt; $50.00)</h2>
+        <h2>Ofertas em Destaque (&lt; R$ 50,00)</h2>
       </div>
-      <p class="section-desc">Itens com borda e brilho verde destacados pela diretiva appDestaquePromocao</p>
+      <p class="section-desc">Seleção de itens em destaque com preços promocionais por tempo limitado</p>
     </div>
 
     @if (carregando) {
       <div class="loading-state">
         <ion-spinner name="crescent" color="primary"></ion-spinner>
-        <p>Buscando as melhores ofertas da FakeStoreAPI...</p>
+        <p>Carregando as melhores ofertas...</p>
       </div>
     } @else if (erroCarregamento) {
       <div class="error-state">
@@ -112,7 +116,7 @@
                 <div class="promo-badge-container">
                   <span class="promo-tag">
                     <ion-icon name="flash"></ion-icon>
-                    Oferta &lt; $50
+                    Super Oferta
                   </span>
                 </div>
 
@@ -138,7 +142,7 @@
 
                   <div class="card-footer-action">
                     <span class="product-price">
-                      {{ prod.price | currency:'USD':'symbol':'1.2-2' }}
+                      {{ prod.price | currency:'BRL':'symbol':'1.2-2' }}
                     </span>
                     <ion-button
                       size="small"
@@ -162,4 +166,5 @@
       </ion-grid>
     }
   </section>
+  </div>
 </ion-content>

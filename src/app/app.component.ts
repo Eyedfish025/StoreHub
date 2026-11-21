@@ -1,5 +1,15 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  IonApp,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel,
+  IonBadge,
+} from '@ionic/angular/standalone';
+import { CarrinhoLocalService } from './services/carrinho-local.service';
 import { addIcons } from 'ionicons';
 import {
   home,
@@ -64,6 +74,12 @@ import {
   cardOutline,
   cashOutline,
   eyeOutline,
+  navigateCircleOutline,
+  cloudDownloadOutline,
+  colorWandOutline,
+  gitNetworkOutline,
+  codeSlashOutline,
+  browsersOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -71,9 +87,20 @@ import {
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonApp, IonRouterOutlet],
+  imports: [
+    RouterLink,
+    IonApp,
+    IonTabs,
+    IonTabBar,
+    IonTabButton,
+    IonIcon,
+    IonLabel,
+    IonBadge,
+  ],
 })
 export class AppComponent {
+  readonly carrinhoService = inject(CarrinhoLocalService);
+
   constructor() {
     this.registrarIcones();
   }
@@ -142,6 +169,12 @@ export class AppComponent {
       cardOutline,
       cashOutline,
       eyeOutline,
+      navigateCircleOutline,
+      cloudDownloadOutline,
+      colorWandOutline,
+      gitNetworkOutline,
+      codeSlashOutline,
+      browsersOutline,
     });
   }
 }
