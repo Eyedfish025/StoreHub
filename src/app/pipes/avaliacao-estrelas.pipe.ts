@@ -10,7 +10,7 @@ export class AvaliacaoEstrelasPipe implements PipeTransform {
    * Formata avaliações numéricas ou objetos de rating em estrelas visuais
    * Exemplo de saída: ★★★★☆ (4.2)
    */
-  transform(valor: number | ProdutoRating | null | undefined): string {
+  transform(valor: number | ProdutoRating | null | undefined, exibirClassificacao = false): string {
     if (valor === null || valor === undefined) {
       return '☆☆☆☆☆ (0.0)';
     }
@@ -34,11 +34,16 @@ export class AvaliacaoEstrelasPipe implements PipeTransform {
 
     const estrelasStr = '★'.repeat(estrelasCheias) + '☆'.repeat(estrelasVazias);
     const notaFormatada = notaClamped.toFixed(1);
+    const classificacao = notaClamped >= 4.5 ? 'Excelente'
+      : notaClamped >= 3.5 ? 'Bom'
+      : notaClamped >= 2.5 ? 'Regular'
+      : 'Ruim';
+    const complemento = exibirClassificacao ? ` - ${classificacao}` : '';
 
     if (totalAvaliacoes !== null) {
-      return `${estrelasStr} (${notaFormatada})`;
+      return `${estrelasStr} (${notaFormatada}${complemento})`;
     }
 
-    return `${estrelasStr} (${notaFormatada})`;
+    return `${estrelasStr} (${notaFormatada}${complemento})`;
   }
 }

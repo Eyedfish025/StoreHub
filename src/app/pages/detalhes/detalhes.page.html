@@ -67,7 +67,7 @@
               <h1 class="product-title">{{ produto.title }}</h1>
 
               <div class="rating-row">
-                <span class="stars">{{ produto.rating | avaliacaoEstrelas }}</span>
+                <span class="stars">{{ produto.rating | avaliacaoEstrelas:true }}</span>
                 <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
               </div>
 
