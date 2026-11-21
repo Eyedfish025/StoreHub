@@ -104,8 +104,10 @@ src/
    # ou
    npx ionic serve
    ```
-
+   
 3. **Gerar build de produção:**
    ```bash
    npm run build
    ```
+
+  

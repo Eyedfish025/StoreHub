@@ -1,6 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import {
   IonHeader,
   IonToolbar,
@@ -71,6 +72,7 @@ export class HomePage implements OnInit {
   readonly carrinhoService = inject(CarrinhoLocalService);
   private readonly toastCtrl = inject(ToastController);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   categorias: string[] = [];
   produtosPromocionais: Produto[] = [];
@@ -84,28 +86,41 @@ export class HomePage implements OnInit {
   carregarDados(): void {
     this.carregando = true;
     this.erroCarregamento = false;
+    this.cdr.markForCheck();
 
     // Carregar categorias
     this.produtosApi.getCategorias().subscribe({
       next: (cats) => {
-        this.categorias = cats;
+        if (Array.isArray(cats)) {
+          this.categorias = cats;
+        }
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('Erro ao carregar categorias:', err),
     });
 
     // Carregar todos os produtos e filtrar ofertas promocionais (< $50)
-    this.produtosApi.getTodosProdutos().subscribe({
-      next: (prods) => {
-        // Ofertas promocionais: produtos com preço menor que $50
-        this.produtosPromocionais = prods.filter((p) => p.price < 50);
-        this.carregando = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar produtos:', err),
-        this.erroCarregamento = true;
-        this.carregando = false;
-      },
-    });
+    this.produtosApi
+      .getTodosProdutos()
+      .pipe(
+        finalize(() => {
+          this.carregando = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: (prods) => {
+          if (Array.isArray(prods)) {
+            this.produtosPromocionais = prods.filter((p) => p.price < 50);
+          }
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar produtos:', err);
+          this.erroCarregamento = true;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   navegarParaCategoria(categoria: string): void {

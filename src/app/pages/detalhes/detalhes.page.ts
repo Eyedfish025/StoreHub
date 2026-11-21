@@ -1,6 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import {
   IonHeader,
   IonToolbar,
@@ -62,6 +63,7 @@ export class DetalhesPage implements OnInit {
   private readonly produtosApi = inject(ProdutosApiService);
   readonly carrinhoService = inject(CarrinhoLocalService);
   private readonly toastCtrl = inject(ToastController);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   produto: Produto | null = null;
   carregando = true;
@@ -75,6 +77,7 @@ export class DetalhesPage implements OnInit {
     if (isNaN(id) || id <= 0) {
       this.erro = true;
       this.carregando = false;
+      this.cdr.markForCheck();
       return;
     }
 
@@ -84,18 +87,27 @@ export class DetalhesPage implements OnInit {
   carregarProduto(id: number): void {
     this.carregando = true;
     this.erro = false;
+    this.cdr.markForCheck();
 
-    this.produtosApi.getProdutoPorId(id).subscribe({
-      next: (prod) => {
-        this.produto = prod;
-        this.carregando = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar detalhes do produto:', err);
-        this.erro = true;
-        this.carregando = false;
-      },
-    });
+    this.produtosApi
+      .getProdutoPorId(id)
+      .pipe(
+        finalize(() => {
+          this.carregando = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: (prod) => {
+          this.produto = prod;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar detalhes do produto:', err);
+          this.erro = true;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   incrementarQuantidade(): void {

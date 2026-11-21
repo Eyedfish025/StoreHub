@@ -13,8 +13,6 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "src/**/*.spec.ts",
-    "src/server.ts",
-    "src/Seeder.ts"
+    "src/**/*.spec.ts"
   ]
 }
