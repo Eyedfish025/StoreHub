@@ -27,11 +27,7 @@ export const routes: Routes = [
       import('./pages/carrinho/carrinho.page').then((m) => m.CarrinhoPage),
   },
   {
-    path: 'equipe',
-    loadComponent: () =>
-      import('./pages/equipe/equipe.page').then((m) => m.EquipePage),
-  },
-  {
+    // Página da equipe (a do Guilherme). O caminho antigo continua para não quebrar nada.
     path: 'carrinho-equipe',
     loadComponent: () =>
       import('./pages/carrinho-equipe/carrinho-equipe.page').then(
@@ -39,6 +35,7 @@ export const routes: Routes = [
       ),
   },
   {
+    // O curinga sempre por último
     path: '**',
     redirectTo: 'home',
   },

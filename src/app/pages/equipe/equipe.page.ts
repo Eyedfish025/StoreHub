@@ -20,7 +20,7 @@ import {
   IonCol,
   IonChip,
   IonLabel,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 
 export interface MembroEquipe {
   nome: string;

@@ -8,7 +8,7 @@ import {
   IonIcon,
   IonLabel,
   IonBadge,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import { CarrinhoLocalService } from './services/carrinho-local.service';
 import { addIcons } from 'ionicons';
 import {

@@ -24,7 +24,7 @@
     "skipLibCheck": true,
     "useDefineForClassFields": false,
     "paths": {
-      "@ionic/angular/standalone": ["./node_modules/@ionic/angular/dist/standalone/index.d.ts"]
+      "@ionic/angular": ["./node_modules/@ionic/angular/dist/standalone/index.d.ts"]
     }
   },
   "angularCompilerOptions": {

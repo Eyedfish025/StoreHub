@@ -26,7 +26,7 @@ import {
   IonChip,
   AlertController,
   ToastController,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import {
   CarrinhoLocalService,
   ItemCarrinhoLocal,

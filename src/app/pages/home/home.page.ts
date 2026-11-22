@@ -23,7 +23,7 @@ import {
   IonLabel,
   IonSpinner,
   ToastController,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import { ProdutosApiService } from '../../services/produtos-api.service';
 import { CarrinhoLocalService } from '../../services/carrinho-local.service';
 import { Produto } from '../../models/produto.model';
