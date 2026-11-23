@@ -30,10 +30,18 @@
     <div class="error-state">
       <ion-icon name="alert-circle-outline"></ion-icon>
       <h3>Produto não encontrado</h3>
-      <p>Não foi possível obter as informações deste item.</p>
-      <ion-button routerLink="/produtos" fill="outline">
-        Voltar ao Catálogo
-      </ion-button>
+      <p>{{ mensagemErro || 'Não foi possível obter as informações deste item.' }}</p>
+      <div class="error-actions">
+        @if (produtoId !== null && !idInvalido) {
+          <ion-button fill="solid" color="primary" (click)="recarregarProduto()">
+            <ion-icon slot="start" name="refresh-outline"></ion-icon>
+            Tentar Novamente
+          </ion-button>
+        }
+        <ion-button routerLink="/produtos" fill="outline">
+          Voltar ao Catálogo
+        </ion-button>
+      </div>
     </div>
   } @else {
     <div class="detail-container">
@@ -66,10 +74,12 @@
 
               <h1 class="product-title">{{ produto.title }}</h1>
 
-              <div class="rating-row">
-                <span class="stars">{{ produto.rating | avaliacaoEstrelas:true }}</span>
-                <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
-              </div>
+              @if (produto.rating) {
+                <div class="rating-row">
+                  <span class="stars">{{ produto.rating | avaliacaoEstrelas:true }}</span>
+                  <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
+                </div>
+              }
 
               <div class="price-box">
                 <span class="current-price">
@@ -136,6 +146,68 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
+      <!-- Produtos Relacionados (mesma categoria) com navegação parametrizada /detalhes/:id -->
+      @if (carregandoRelacionados || produtosRelacionados.length > 0) {
+        <section class="related-section">
+          <div class="related-header">
+            <h2>Produtos Relacionados</h2>
+            <ion-button
+              fill="clear"
+              size="small"
+              routerLink="/produtos"
+              [queryParams]="{ categoria: produto.category }"
+            >
+              Ver categoria
+              <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          @if (carregandoRelacionados) {
+            <div class="related-loading">
+              <ion-spinner name="dots" color="primary"></ion-spinner>
+              <span>Buscando itens similares...</span>
+            </div>
+          } @else {
+            <ion-grid>
+              <ion-row>
+                @for (rel of produtosRelacionados; track rel.id) {
+                  <ion-col size="12" size-sm="6" size-md="3">
+                    <ion-card
+                      class="related-product-card"
+                      [appDestaquePromocao]="rel.price"
+                      [appZoomHover]="1.03"
+                      [routerLink]="['/detalhes', rel.id]"
+                    >
+                      <div class="related-image-box">
+                        <img [src]="rel.image" [alt]="rel.title" loading="lazy" />
+                      </div>
+
+                      <ion-card-header>
+                        <ion-card-subtitle>{{ rel.category | uppercase }}</ion-card-subtitle>
+                        <ion-card-title class="related-title">
+                          {{ rel.title | resumoTexto: 42 }}
+                        </ion-card-title>
+                      </ion-card-header>
+
+                      <ion-card-content>
+                        @if (rel.rating) {
+                          <div class="related-stars">
+                            {{ rel.rating | avaliacaoEstrelas }}
+                          </div>
+                        }
+                        <span class="related-price">
+                          {{ rel.price | currency:'BRL':'symbol':'1.2-2' }}
+                        </span>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                }
+              </ion-row>
+            </ion-grid>
+          }
+        </section>
+      }
     </div>
   }
 </ion-content>
