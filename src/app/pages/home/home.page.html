@@ -84,7 +84,7 @@
           <ion-icon name="flash"></ion-icon>
           Preços Imperdíveis
         </span>
-        <h2>Ofertas em Destaque (&lt; R$ 50,00)</h2>
+        <h2>Ofertas em Destaque (&lt; $ 50.00)</h2>
       </div>
       <p class="section-desc">Seleção de itens em destaque com preços promocionais por tempo limitado</p>
     </div>
@@ -134,6 +134,9 @@
                 <ion-card-content>
                   <div class="rating-box">
                     <span class="stars-text">{{ prod.rating | avaliacaoEstrelas }}</span>
+                    @if (prod.rating.count < 150) {
+                      <ion-badge color="warning" style="margin-left: 6px; font-size: 0.7rem;">Estoque baixo</ion-badge>
+                    }
                   </div>
 
                   <p class="product-description">
@@ -142,7 +145,7 @@
 
                   <div class="card-footer-action">
                     <span class="product-price">
-                      {{ prod.price | currency:'BRL':'symbol':'1.2-2' }}
+                      {{ prod.price | currency:'USD':'symbol':'1.2-2' }}
                     </span>
                     <ion-button
                       size="small"

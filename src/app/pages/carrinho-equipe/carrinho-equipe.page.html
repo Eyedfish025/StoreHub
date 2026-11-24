@@ -65,10 +65,10 @@
                       {{ item.produto.title | resumoTexto: 50 }}
                     </h3>
                     <p class="unit-price">
-                      Unitário: {{ item.produto.price | currency:'BRL':'symbol':'1.2-2' }}
+                      Unitário: {{ item.produto.price | currency:'USD':'symbol':'1.2-2' }}
                     </p>
                     <p class="total-item-price">
-                      Subtotal: <strong>{{ (item.produto.price * item.quantidade) | currency:'BRL':'symbol':'1.2-2' }}</strong>
+                      Subtotal: <strong>{{ (item.produto.price * item.quantidade) | currency:'USD':'symbol':'1.2-2' }}</strong>
                     </p>
                   </ion-label>
 
@@ -143,7 +143,7 @@
                 <div class="summary-total-row">
                   <span>Total Geral:</span>
                   <span class="final-subtotal">
-                    {{ carrinhoService.subtotal() | currency:'BRL':'symbol':'1.2-2' }}
+                    {{ carrinhoService.subtotal() | currency:'USD':'symbol':'1.2-2' }}
                   </span>
                 </div>
 

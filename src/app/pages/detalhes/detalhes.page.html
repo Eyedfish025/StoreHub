@@ -78,12 +78,15 @@
                 <div class="rating-row">
                   <span class="stars">{{ produto.rating | avaliacaoEstrelas:true }}</span>
                   <span class="count-badge">({{ produto.rating.count }} opiniões de clientes)</span>
+                  @if (produto.rating.count < 150) {
+                    <ion-badge color="warning">Estoque baixo</ion-badge>
+                  }
                 </div>
               }
 
               <div class="price-box">
                 <span class="current-price">
-                  {{ produto.price | currency:'BRL':'symbol':'1.2-2' }}
+                  {{ produto.price | currency:'USD':'symbol':'1.2-2' }}
                 </span>
                 @if (produto.price < 50) {
                   <span class="economy-note">
@@ -129,7 +132,7 @@
                   (click)="adicionarAoCarrinho()"
                 >
                   <ion-icon slot="start" name="bag-check-outline"></ion-icon>
-                  Adicionar ao Carrinho ({{ (produto.price * quantidade) | currency:'BRL':'symbol':'1.2-2' }})
+                  Adicionar ao Carrinho ({{ (produto.price * quantidade) | currency:'USD':'symbol':'1.2-2' }})
                 </ion-button>
 
                 <ion-button
@@ -197,7 +200,7 @@
                           </div>
                         }
                         <span class="related-price">
-                          {{ rel.price | currency:'BRL':'symbol':'1.2-2' }}
+                          {{ rel.price | currency:'USD':'symbol':'1.2-2' }}
                         </span>
                       </ion-card-content>
                     </ion-card>

@@ -116,6 +116,9 @@
               <ion-card-content>
                 <div class="stars-line">
                   {{ prod.rating | avaliacaoEstrelas }}
+                  @if (prod.rating.count < 150) {
+                    <ion-badge color="warning" style="margin-left: 6px; font-size: 0.7rem;">Estoque baixo</ion-badge>
+                  }
                 </div>
 
                 <p class="description-line">
@@ -124,7 +127,7 @@
 
                 <div class="price-action-row">
                   <span class="price-value">
-                    {{ prod.price | currency:'BRL':'symbol':'1.2-2' }}
+                    {{ prod.price | currency:'USD':'symbol':'1.2-2' }}
                   </span>
                   <ion-button
                     color="primary"

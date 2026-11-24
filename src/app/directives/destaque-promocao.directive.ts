@@ -35,9 +35,9 @@ export class DestaquePromocaoDirective implements OnInit, OnChanges {
     const emPromocao = !isNaN(valor) && valor > 0 && valor < 50;
 
     if (emPromocao) {
-      this.border = '2px solid #2dd36f';
-      this.boxShadow = '0 8px 24px rgba(45, 211, 111, 0.25)';
-      this.backgroundColor = 'rgba(45, 211, 111, 0.05)';
+      this.border = '2px solid #d4af37';
+      this.boxShadow = '0 8px 24px rgba(212, 175, 55, 0.25)';
+      this.backgroundColor = 'rgba(212, 175, 55, 0.05)';
       this.isPromocao = true;
     } else {
       this.border = '';

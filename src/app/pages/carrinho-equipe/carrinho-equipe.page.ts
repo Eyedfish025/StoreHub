@@ -186,9 +186,9 @@ export class CarrinhoEquipePage {
 
     const alert = await this.alertCtrl.create({
       header: '🎉 Checkout StoreHub',
-      subHeader: `Total: ${subtotal.toLocaleString('pt-BR', {
+      subHeader: `Total: ${subtotal.toLocaleString('en-US', {
         style: 'currency',
-        currency: 'BRL',
+        currency: 'USD',
       })}`,
       message: `Você está prestes a concluir o pedido de ${totalItens} ${totalItens === 1 ? 'item' : 'itens'
         }. Selecione a forma de pagamento simulada:`,

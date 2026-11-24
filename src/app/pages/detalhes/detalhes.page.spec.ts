@@ -8,7 +8,7 @@ import {
   convertToParamMap,
   provideRouter,
 } from '@angular/router';
-import { ToastController } from '@ionic/angular/standalone';
+import { ToastController } from '@ionic/angular';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { DetalhesPage } from './detalhes.page';
 import { ProdutosApiService } from '../../services/produtos-api.service';

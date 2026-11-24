@@ -19,6 +19,7 @@ export class ZoomHoverDirective {
   @HostBinding('style.zIndex') zIndex = '1';
 
   @HostListener('mouseenter')
+  @HostListener('touchstart')
   onMouseEnter(): void {
     const escala = this.escalaCustomizada || 1.03;
     this.transform = `scale(${escala})`;
@@ -26,6 +27,8 @@ export class ZoomHoverDirective {
   }
 
   @HostListener('mouseleave')
+  @HostListener('touchend')
+  @HostListener('touchcancel')
   onMouseLeave(): void {
     this.transform = 'scale(1)';
     this.zIndex = '1';
