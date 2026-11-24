@@ -9,7 +9,7 @@ import {
   IonLabel,
   IonBadge,
 } from '@ionic/angular';
-import { CarrinhoLocalService } from './services/carrinho-local.service';
+import { CarrinhoLocalService } from './services/carrinholocal.service';
 import { addIcons } from 'ionicons';
 import {
   home,

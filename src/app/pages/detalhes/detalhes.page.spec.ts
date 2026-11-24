@@ -11,7 +11,7 @@ import {
 import { ToastController } from '@ionic/angular';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { DetalhesPage } from './detalhes.page';
-import { ProdutosApiService } from '../../services/produtos-api.service';
+import { ProdutosApiService } from '../../services/produtosapi.service';
 import { Produto } from '../../models/produto.model';
 
 registerLocaleData(localePt);

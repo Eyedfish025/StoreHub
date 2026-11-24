@@ -34,13 +34,13 @@ import {
   IonCardContent,
   ToastController,
 } from '@ionic/angular';
-import { ProdutosApiService } from '../../services/produtos-api.service';
-import { CarrinhoLocalService } from '../../services/carrinho-local.service';
+import { ProdutosApiService } from '../../services/produtosapi.service';
+import { CarrinhoLocalService } from '../../services/carrinholocal.service';
 import { Produto } from '../../models/produto.model';
-import { AvaliacaoEstrelasPipe } from '../../pipes/avaliacao-estrelas.pipe';
-import { ResumoTextoPipe } from '../../pipes/resumo-texto.pipe';
-import { DestaquePromocaoDirective } from '../../directives/destaque-promocao.directive';
-import { ZoomHoverDirective } from '../../directives/zoom-hover.directive';
+import { AvaliacaoEstrelasPipe } from '../../pipes/avaliacaoestrelas.pipe';
+import { ResumoTextoPipe } from '../../pipes/resumotexto.pipe';
+import { DestaquePromocaoDirective } from '../../directives/destaquepromocao.directive';
+import { ZoomHoverDirective } from '../../directives/zoomhover.directive';
 
 @Component({
   selector: 'app-detalhes',

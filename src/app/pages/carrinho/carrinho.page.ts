@@ -30,8 +30,8 @@ import {
 import {
   CarrinhoLocalService,
   ItemCarrinhoLocal,
-} from '../../services/carrinho-local.service';
-import { ResumoTextoPipe } from '../../pipes/resumo-texto.pipe';
+} from '../../services/carrinholocal.service';
+import { ResumoTextoPipe } from '../../pipes/resumotexto.pipe';
 
 /**
  * CarrinhoPage (rota /carrinho)
