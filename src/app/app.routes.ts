@@ -35,6 +35,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'equipe',
+    loadComponent: () =>
+      import('./pages/equipe/equipe.page').then((m) => m.EquipePage),
+  },
+  {
     // O curinga sempre por último
     path: '**',
     redirectTo: 'home',
