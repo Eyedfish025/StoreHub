@@ -64,54 +64,54 @@ export class EquipePage {
     {
       nome: 'Sérgio Guilherme F. de Lima',
       matricula: '01796267',
-      papel: 'Desenvolvedor Front-end & Arquitetura',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pela arquitetura de páginas, estruturação de rotas standalone e desenvolvimento do sistema de navegação por abas com componentes nativos do Ionic.',
+        'Responsável pelas Páginas e Roteamento',
       avatarIcon: 'navigate-circle-outline',
 
     },
     {
       nome: 'Jonathan Gustavo Gomes dos Santos',
       matricula: '01821597',
-      papel: 'Desenvolvedor de Integração & Serviços Web',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pelo desenvolvimento da camada de serviços HTTP, integração e consumo assíncrono dos endpoints de produtos, categorias e detalhes.',
+        'Responsável pelo Consumo de API ',
       avatarIcon: 'cloud-download-outline',
 
     },
     {
       nome: 'Emilly Marrocos Mendonça Ciriaco',
       matricula: '01842163',
-      papel: 'Desenvolvedora Front-end & Gestão de Estado',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pela lógica de gerenciamento de estado do carrinho de compras, cálculo de valores e quantidades, persistência em localStorage e tela dedicada do carrinho.',
+        'Responsável pela Segundo Service e página do carrinho. ',
       avatarIcon: 'cart-outline',
 
     },
     {
       nome: 'Mylena Monteiro Alves',
       matricula: '01855595',
-      papel: 'Desenvolvedora Front-end & Formatação de Dados',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pela implementação e integração dos pipes de transformação de dados para formatação monetária, padronização de categorias, resumos de texto e avaliações em estrelas.',
+        'Responsável pelas Pipes. ',
       avatarIcon: 'color-wand-outline',
 
     },
     {
       nome: 'Felix Luiz Cavalcanti Bomfim Neto',
       matricula: '01810567',
-      papel: 'Desenvolvedor de Interface & Interatividade',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pelo fluxo reativo da interface e criação das diretivas customizadas para destaque visual de ofertas promocionais e efeitos interativos de escala e elevação.',
+        'Responsável pelas Diretivas e Fluxo.',
       avatarIcon: 'flash-outline',
 
     },
     {
       nome: 'José Rhawan Michel dos Santos',
       matricula: '01864924',
-      papel: 'Desenvolvedor Front-end & Roteamento Dinâmico',
+      papel: 'ALUNO DE CODIGO DE ALTA PEFORMANCE MOBILE',
       responsabilidades:
-        'Responsável pela navegação parametrizada, transmissão de identificadores entre catálogo e carrinho e renderização da página de detalhes individuais de produtos.',
+        'Responsável pelo Parâmetro por Rota.',
       avatarIcon: 'git-network-outline',
 
     },
